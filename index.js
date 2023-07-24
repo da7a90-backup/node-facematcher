@@ -58,7 +58,7 @@ app.post('/facematch', async (req, res)=>{
       formData.append('client_id', '1695907647592767')
       formData.append('client_secret', 'b55a3a9abdbb392fd561ffec50204e38')
       formData.append('grant_type', 'authorization_code')
-      formData.append('redirect_uri', 'https://23e6-102-216-217-240.ngrok-free.app/facematchrun')
+      formData.append('redirect_uri', 'https://picstudio-git-da7a90-backup-facematchingdemo-prompthunt.vercel.app/facematchrun')
       //@ts-ignore
       formData.append('code', code)
   
