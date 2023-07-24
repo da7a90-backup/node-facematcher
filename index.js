@@ -185,20 +185,26 @@ app.post('/facematch', async (req, res)=>{
         console.log(bestMatch.distance < 0.55 ? "match" : "no match")
         let similarity = (1 - bestMatch.distance) * 100;
         console.log("similarity: " + similarity);
-        console.log(i)
   
         if (bestMatch.distance < 0.55) {
-
-          console.log("all faces")
-          console.log(results)
-          console.log("best match")
-          console.log(bestMatch)
-          secondImage.width = 800
-          secondImage.height = 600
-          matchlist.push({ url: i, similarity: "similarity: " + similarity })
+          if(results.length === 1){
+          matchlist.push({boxes : [], url: i, similarity: "similarity: " + similarity })
+        } else {
+          let boxes = [];
+          for(let result of results){
+            let secondFaceMatcher = new faceapi.FaceMatcher(result)
+            let secondBest = secondFaceMatcher.findBestMatch(singleResult.descriptor)
+            if(secondBest.distance > 0.55){
+              boxes = [...boxes, result.detection.box]
+            }
+          }
+          matchlist.push({boxes : boxes, url: i, similarity: "similarity: "+ similarity})
+        }
         }
       }  
   
+      console.log("returned: ")
+      console.log(matchlist)
       return res.status(200).json({ matchlist: matchlist })
   
     } catch (e) {
