@@ -20,10 +20,10 @@ const downloadFile = async (url) => {
   return req.data;
 };
 
-import * as tf from '@tensorflow/tfjs-node';
+import * as tf from '@tensorflow/tfjs-node-gpu';
 
 
-import * as faceapi from '@vladmandic/face-api';
+import * as faceapi from '@vladmandic/face-api/dist/face-api.node-gpu.js';
 
 import cors from 'cors';
 
