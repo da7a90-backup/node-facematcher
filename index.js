@@ -197,7 +197,10 @@ app.post('/facematch', async (req, res)=>{
 
 })
 
-https
+app.listen(80, ()=>{
+  console.log("running on E")
+})
+/* https
   .createServer(
 		// Provide the private and public key to the server by reading each
 		// file's content with the readFileSync() method.
@@ -209,4 +212,4 @@ https
   )
   .listen(80, () => {
     console.log("server is runing at port 80");
-  });
+  }); */
