@@ -8,8 +8,8 @@ import axios from 'axios';
 
 import https from "https";
 
-import path from 'path';
-
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
 import fs from "fs";
 
@@ -38,8 +38,11 @@ app.use(cors())
 
 app.get('/.well-known/pki-validation/238E2C4BC3DCCBA2B40CAE1EB740FDBF.txt', async (req, res)=>{
 
+
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = dirname(__filename);
   const options = {
-    root: path.join(path.dirname())
+    root: path.join(__dirname)
 };
 
 const fileName = '238E2C4BC3DCCBA2B40CAE1EB740FDBF.txt';
