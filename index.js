@@ -103,18 +103,17 @@ app.post('/facematch', async (req, res)=>{
 
       let postsJson = await posts.json();
   
-      const allPosts = postsJson.data;
+      let allPosts = [...postsJson.data];
 
 
       while (postsJson.paging.next) {
         posts = await fetch(postsJson.paging.next)
         postsJson = await posts.json();
 
-        console.log("additional req")
-        console.log(postsJson.paging.next)
-        console.log("additional posts")
-        
-        allPosts.push(postsJson.data)
+        console.log(allPosts.length)
+
+        allPosts =[...allPosts, ...postsJson.data]
+
         if (allPosts.length > 300) {
           break;
         }
@@ -187,7 +186,7 @@ app.post('/facematch', async (req, res)=>{
         console.log("similarity: " + similarity);
         console.log(i)
   
-        if (bestMatch.distance < 0.5) {
+        if (bestMatch.distance < 0.6) {
           secondImage.width = 800
           secondImage.height = 600
           matchlist.push({ url: i, similarity: "similarity: " + similarity })
