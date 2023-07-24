@@ -104,10 +104,15 @@ app.post('/facematch', async (req, res)=>{
       let postsJson = await posts.json();
   
       const allPosts = postsJson.data;
-  
+
+      console.log(postsJson.paging.next)
+      console.log("additional req")
+
       while (postsJson.paging.next) {
         posts = await fetch(postsJson.paging.next)
         postsJson = await posts.json();
+
+        console.log("additional posts")
         allPosts.push(postsJson.data)
         if (allPosts.length > 300) {
           break;
