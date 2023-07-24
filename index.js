@@ -114,7 +114,7 @@ app.post('/facematch', async (req, res)=>{
 
         allPosts =[...allPosts, ...postsJson.data]
 
-        if (allPosts.length > 300) {
+        if (allPosts.length > 400) {
           break;
         }
       }
@@ -181,12 +181,18 @@ app.post('/facematch', async (req, res)=>{
         const faceMatcher = new faceapi.FaceMatcher(results)
   
         const bestMatch = faceMatcher.findBestMatch(singleResult.descriptor)
+
         console.log(bestMatch.distance < 0.55 ? "match" : "no match")
         let similarity = (1 - bestMatch.distance) * 100;
         console.log("similarity: " + similarity);
         console.log(i)
   
         if (bestMatch.distance < 0.55) {
+
+          console.log("all faces")
+          console.log(results)
+          console.log("best match")
+          console.log(bestMatch)
           secondImage.width = 800
           secondImage.height = 600
           matchlist.push({ url: i, similarity: "similarity: " + similarity })
