@@ -39,7 +39,7 @@ app.use(cors())
 app.get('/.well-known/pki-validation/238E2C4BC3DCCBA2B40CAE1EB740FDBF.txt', async (req, res)=>{
 
   const options = {
-    root: path.join(__dirname)
+    root: path.join(path.dirname())
 };
 
 const fileName = '238E2C4BC3DCCBA2B40CAE1EB740FDBF.txt';
