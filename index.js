@@ -6,6 +6,10 @@ import fetch from 'node-fetch';
 
 import axios from 'axios';
 
+import https from "https";
+
+import fs from "fs";
+
 const downloadFile = async (url) => {
   const req = await axios.get(
     url,
@@ -173,6 +177,16 @@ app.post('/facematch', async (req, res)=>{
 
 })
 
-app.listen(3005, () => {
-    console.log("Server running on port 3000");
-   });
+https
+  .createServer(
+		// Provide the private and public key to the server by reading each
+		// file's content with the readFileSync() method.
+    {
+      key: fs.readFileSync("key.pem"),
+      cert: fs.readFileSync("cert.pem"),
+    },
+    app
+  )
+  .listen(3005, () => {
+    console.log("server is runing at port 3005");
+  });
