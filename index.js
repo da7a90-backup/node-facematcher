@@ -9,7 +9,7 @@ import axios from 'axios';
 import https from "https";
 
 import { fileURLToPath } from 'url';
-import { dirname } from 'path';
+import { dirname, join } from 'path';
 
 import fs from "fs";
 
@@ -42,7 +42,7 @@ app.get('/.well-known/pki-validation/238E2C4BC3DCCBA2B40CAE1EB740FDBF.txt', asyn
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = dirname(__filename);
   const options = {
-    root: path.join(__dirname)
+    root: join(__dirname)
 };
 
 const fileName = '238E2C4BC3DCCBA2B40CAE1EB740FDBF.txt';
