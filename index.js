@@ -8,6 +8,9 @@ import axios from 'axios';
 
 import https from "https";
 
+import path from 'path';
+
+
 import fs from "fs";
 
 const downloadFile = async (url) => {
@@ -32,6 +35,23 @@ app.use(express.urlencoded({extended: true}));
  app.use(express.json());
 
 app.use(cors())
+
+app.get('/.well-known/pki-validation/238E2C4BC3DCCBA2B40CAE1EB740FDBF.txt', async (req, res)=>{
+
+  const options = {
+    root: path.join(__dirname)
+};
+
+const fileName = 'Hello.txt';
+res.sendFile(fileName, options, function (err) {
+    if (err) {
+        next(err);
+    } else {
+        console.log('Sent:', fileName);
+    }
+});
+
+})
 
 app.post('/facematch', async (req, res)=>{
 
@@ -187,6 +207,6 @@ https
     },
     app
   )
-  .listen(3005, () => {
-    console.log("server is runing at port 3005");
+  .listen(80, () => {
+    console.log("server is runing at port 80");
   });
