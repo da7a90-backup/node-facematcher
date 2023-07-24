@@ -105,21 +105,22 @@ app.post('/facematch', async (req, res)=>{
   
       const allPosts = postsJson.data;
 
-      console.log(postsJson.paging.next)
-      console.log("additional req")
 
       while (postsJson.paging.next) {
         posts = await fetch(postsJson.paging.next)
         postsJson = await posts.json();
 
+        console.log("additional req")
+        console.log(postsJson.paging.next)
         console.log("additional posts")
+        
         allPosts.push(postsJson.data)
         if (allPosts.length > 300) {
           break;
         }
       }
   
-      console.log(allPosts);
+      console.log(allPosts.length);
   
       const images = [];
   
@@ -148,6 +149,7 @@ app.post('/facematch', async (req, res)=>{
       const reference = tf.node.decodeImage(b, 3);
 
       console.log("loaded")
+      console.log(images.length)
   
       const singleResult = await faceapi
         .detectSingleFace(reference)
