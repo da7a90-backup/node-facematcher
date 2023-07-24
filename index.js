@@ -37,19 +37,9 @@ app.use(express.urlencoded({extended: true}));
 app.use(cors())
 
 app.get('/.well-known/pki-validation/238E2C4BC3DCCBA2B40CAE1EB740FDBF.txt', async (req, res)=>{
-
-  const options = {
-    root: path.join(__dirname)
-};
-
+console.log("here!!")
 const fileName = '238E2C4BC3DCCBA2B40CAE1EB740FDBF.txt';
-res.sendFile(fileName, options, function (err) {
-    if (err) {
-        next(err);
-    } else {
-        console.log('Sent:', fileName);
-    }
-});
+res.sendFile(fileName);
 
 })
 
