@@ -1,9 +1,5 @@
 import express from 'express';
 
-import FormData from 'form-data';
-
-import fetch from 'node-fetch';
-
 import axios from 'axios';
 
 import https from "https";
@@ -70,82 +66,14 @@ app.post('/facematch', async (req, res)=>{
       ])
       await modelsLoaded
   
-      const params = req.query
       const body = req.body
-      const code = params.code;
       const imageSrc = body.reference;
-  
-      console.log(req.headers)
-      console.log(imageSrc);
+      const images = body.images
   
   
-      console.log(code)
-      const formData = new FormData()
-      formData.append('client_id', '1695907647592767')
-      formData.append('client_secret', 'b55a3a9abdbb392fd561ffec50204e38')
-      formData.append('grant_type', 'authorization_code')
-      formData.append('redirect_uri', 'https://picstudio-git-da7a90-backup-facematchingdemo-prompthunt.vercel.app/facematchrun')
-      //@ts-ignore
-      formData.append('code', code)
+      const img = await downloadFile(imageSrc);
   
-      const token = await fetch('https://api.instagram.com/oauth/access_token', {
-        body: formData,
-        method: 'POST'
-      })
-  
-      const tokenJson = await token.json();
-  
-      const accessToken = tokenJson.access_token;
-  
-      console.log(tokenJson)
-  
-      let posts = await fetch('https://graph.instagram.com/me/media?fields=id,media_type,media_url,caption&access_token=' + accessToken + '&limit=100')
-
-      let postsJson = await posts.json();
-  
-      let allPosts = [...postsJson.data];
-
-
-      while (postsJson.paging.next) {
-        posts = await fetch(postsJson.paging.next)
-        postsJson = await posts.json();
-
-        console.log(allPosts.length)
-
-        allPosts =[...allPosts, ...postsJson.data]
-
-        if (allPosts.length > 400) {
-          break;
-        }
-      }
-  
-      console.log(allPosts.length);
-  
-      const images = [];
-  
-      for (let post of allPosts) {
-        if (post.media_type == 'IMAGE') {
-          images.push(post.media_url);
-        }
-        if (post.media_type == 'CAROUSEL_ALBUM') {
-          let albumData = await fetch(`https://graph.instagram.com/${post.id}/children?fields=id,media_type,media_url&access_token=${accessToken}`)
-          let albumDataJson = await albumData.json()
-          for (let albumPost of albumDataJson.data) {
-            if (albumPost.media_type == 'IMAGE') {
-              images.push(albumPost.media_url);
-            }
-          }
-        }
-      }
-  
-  
-      const img = imageSrc.replace(
-        /^data:image\/(png|jpeg);base64,/,
-        ""
-      );
-      const b = Buffer.from(img, "base64");
-  
-      const reference = tf.node.decodeImage(b, 3);
+      const reference = tf.node.decodeImage(img, 3);
 
       console.log("loaded")
       console.log(images.length)
