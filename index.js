@@ -31,26 +31,6 @@ app.use(express.urlencoded({extended: true, limit: '50mb'}));
 
 app.use(cors())
 
-app.get('/.well-known/pki-validation/238E2C4BC3DCCBA2B40CAE1EB740FDBF.txt', async (req, res)=>{
-
-
-  const __filename = fileURLToPath(import.meta.url);
-  const __dirname = dirname(__filename);
-  const options = {
-    root: join(__dirname)
-};
-
-const fileName = '238E2C4BC3DCCBA2B40CAE1EB740FDBF.txt';
-res.sendFile(fileName, options, function (err) {
-    if (err) {
-        next(err);
-    } else {
-        console.log('Sent:', fileName);
-    }
-});
-
-})
-
 app.post('/facematch', async (req, res)=>{
 
     await tf.setBackend('tensorflow');
